@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Textures/slime.png" type="Texture" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="BoxShape" id=2]
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+MAX_SPEED = 20
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform( 16, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0 )
+frames = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.25, 0, 0, 0, 0.125, 0, 0, 0 )
+shape = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
