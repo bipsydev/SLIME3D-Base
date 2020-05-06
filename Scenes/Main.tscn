@@ -12,7 +12,6 @@
 [ext_resource path="res://Textures/heart.png" type="Texture" id=10]
 [ext_resource path="res://Textures/cavewall.png" type="Texture" id=11]
 [ext_resource path="res://Textures/leafy.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/Button.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=14]
 
 [sub_resource type="PhysicsMaterial" id=1]
@@ -69,10 +68,12 @@ uv1_triplanar_sharpness = 0.870551
 
 [sub_resource type="CubeMesh" id=13]
 
+[sub_resource type="BoxShape" id=14]
+
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
 
-[node name="Spatial" type="Spatial" parent="."]
+[node name="Spatial" type="CanvasLayer" parent="."]
 
 [node name="Floor" type="StaticBody" parent="Spatial"]
 transform = Transform( 256, 0, 0, 0, 1, 0, 0, 0, 256, 0, 0, 0 )
@@ -87,8 +88,8 @@ material/0 = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 shape = SubResource( 3 )
 
-[node name="Box" parent="Spatial" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.34352, -12.6151 )
+[node name="Rigid Box" parent="Spatial" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.619214, 1.37905, -10.3613 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Spatial"]
 transform = Transform( 0.611953, -0.42957, 0.664066, -0.00572341, 0.837212, 0.546848, -0.790874, -0.338446, 0.509876, 0, 4.02283, -2.87773 )
@@ -102,8 +103,7 @@ script = ExtResource( 5 )
 
 [node name="Player" parent="Spatial" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46414, 1.51726 )
-SPEED = 250
-MAX_SPEED = 500
+MAX_SPEED = 8
 
 [node name="BackCamera" type="Camera" parent="Spatial/Player"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6 )
@@ -156,13 +156,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
 radius = 2.5
 material = SubResource( 12 )
 
-[node name="Button" type="StaticBody" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6336, 2.99668, 0 )
-script = ExtResource( 13 )
+[node name="Static Box" type="StaticBody" parent="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1 )
 
-[node name="CSGMesh" type="CSGMesh" parent="Spatial/Button"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.97732, 0 )
-use_collision = true
+[node name="MeshInstance" type="MeshInstance" parent="Spatial/Static Box"]
 mesh = SubResource( 13 )
+material/0 = null
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Spatial/Static Box"]
+shape = SubResource( 14 )
 
 [node name="HUD" parent="." instance=ExtResource( 14 )]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Textures/overlay.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item; //shader code
+
+uniform float col_div = 16.0; // lower number = less colors
+
+void fragment() {
+	vec3 s = textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb;
+	
+	//float col_div_ = float(int(TIME * 10.0) % 4) + 1.0;
+	float r = float(round(s.r * col_div)) / col_div;
+	float g = float(round(s.g * col_div)) / col_div;
+	float b = float(round(s.b * col_div)) / col_div;
+	
+	//b = pow(b, 0.25);
+	
+	vec3 c = vec3(r, g, b);
+	
+	COLOR.rgb = c;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/col_div = 8.0
+
+[node name="ShaderOverlay" type="TextureRect"]
+material = SubResource( 2 )
+margin_right = 320.0
+margin_bottom = 180.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
